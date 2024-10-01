@@ -1,0 +1,2 @@
+
+git diff HEAD --quiet && yarn test -- --watchAll=false --coverage=false
