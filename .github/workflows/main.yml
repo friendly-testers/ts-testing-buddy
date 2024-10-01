@@ -26,10 +26,6 @@ jobs:
                   cache: 'yarn'
                   cache-dependency-path: 'yarn.lock'
 
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-
             - name: Restore cached node_modules
               id: yarn-cache
               uses: actions/cache@v4
@@ -43,12 +39,6 @@ jobs:
               if: steps.yarn-cache.outputs.cache-hit != 'true'
               run: yarn install --frozen-lockfile --immutable --prefer-offline
 
-            #- name: Archive node_modules
-            #  uses: actions/upload-artifact@v4
-            #  with:
-            #      name: node_modules
-            #      path: node_modules
-            #      retention-days: 0
     build:
         name: 'Build library'
         runs-on: ubuntu-latest
@@ -70,10 +60,6 @@ jobs:
                   cache: 'yarn'
                   cache-dependency-path: 'yarn.lock'
 
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-
             - name: Restore cached node_modules
               id: yarn-cache
               uses: actions/cache@v4
@@ -86,11 +72,6 @@ jobs:
             - name: Install dependencies
               if: steps.yarn-cache.outputs.cache-hit != 'true'
               run: yarn install --frozen-lockfile --immutable --prefer-offline
-
-            #- name: Download node_modules
-            #  uses: actions/download-artifact@v4
-            #  with:
-            #      name: node_modules
 
             - name: Build
               run: yarn run build
@@ -104,6 +85,7 @@ jobs:
               with:
                   sparse-checkout: |
                       lib
+                      test
                       package.json
                       tsconfig.build.json
                       tsconfig.json
@@ -115,10 +97,6 @@ jobs:
                   node-version-file: '.nvmrc'
                   cache: 'yarn'
                   cache-dependency-path: 'yarn.lock'
-
-            - name: Get yarn cache directory path
-              id: yarn-cache-dir-path
-              run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
             - name: Restore cached node_modules
               id: yarn-cache
@@ -132,11 +110,6 @@ jobs:
             - name: Install dependencies
               if: steps.yarn-cache.outputs.cache-hit != 'true'
               run: yarn install --frozen-lockfile --immutable --prefer-offline
-
-            #- name: Download node_modules
-            #  uses: actions/download-artifact@v4
-            #  with:
-            #      name: node_modules
 
             - name: Lint Project
               run: yarn run lint:report
