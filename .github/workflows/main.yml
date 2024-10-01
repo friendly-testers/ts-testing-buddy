@@ -2,7 +2,7 @@ on:
     pull_request:
         types: [opened, synchronize, reopened]
         paths:
-            - '.github/workflows/main.yml'
+            - '!.github/workflows/main.yml'
             - 'lib/**'
             - 'test/**'
 name: Main
@@ -12,6 +12,7 @@ env:
 
 jobs:
     install_deps:
+        name: 'Install dependencies'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -34,6 +35,7 @@ jobs:
                   path: node_modules
                   retention-days: 1
     build:
+        name: 'Build library'
         runs-on: ubuntu-latest
         steps:
             - name: Download node_modules
@@ -41,10 +43,11 @@ jobs:
               with:
                   name: node_modules
 
-            - name: Build Project
+            - name: Build
               run: yarn run build
 
     test:
+        name: 'Testing, linting and Quality check'
         runs-on: ubuntu-latest
         needs: [install_deps]
         steps:
