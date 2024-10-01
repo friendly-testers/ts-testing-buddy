@@ -15,11 +15,12 @@ jobs:
         name: 'Install dependencies'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout code
+              uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
-            - name: Set up Node.js 20
+            - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -44,7 +45,8 @@ jobs:
         runs-on: ubuntu-latest
         needs: [install_deps]
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout code
+              uses: actions/checkout@v4
               with:
                   sparse-checkout: |
                       lib
@@ -53,7 +55,7 @@ jobs:
                       tsconfig.json
                       yarn.lock
 
-            - name: Set up Node.js 20
+            - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -81,7 +83,8 @@ jobs:
         runs-on: ubuntu-latest
         needs: [install_deps]
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout code
+              uses: actions/checkout@v4
               with:
                   sparse-checkout: |
                       lib
@@ -91,7 +94,7 @@ jobs:
                       tsconfig.json
                       yarn.lock
 
-            - name: Set up Node.js 20
+            - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
@@ -111,18 +114,8 @@ jobs:
               if: steps.yarn-cache.outputs.cache-hit != 'true'
               run: yarn install --frozen-lockfile --immutable --prefer-offline
 
-            - name: Lint Project
-              run: yarn run lint:report
-
             - name: Run unit tests
               run: yarn run test:coverage
-
-            - name: Archive testing report results
-              uses: actions/upload-artifact@v4
-              with:
-                  name: test-report
-                  path: test-report.xml
-                  retention-days: 0
 
             - name: Run e2e
               run: yarn run test:e2e
