@@ -1,0 +1,38 @@
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+name: Main Workflow
+
+env:
+    DOCKER_IMAGE_TAG: ${{ github.event.repository.name }}/${{ github.ref_name }}:latest
+
+jobs:
+    sonarcloud:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js 20
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20.11
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Lint Project
+              run: yarn run lint:report
+
+            - name: Run unit tests
+              run: yarn run test:coverage
+
+            - name: Run e2e
+              run: yarn run test:e2e
+
+            - name: SonarCloud Scan
+              uses: sonarsource/sonarcloud-github-action@v2.2.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

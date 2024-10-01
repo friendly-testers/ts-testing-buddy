@@ -23,6 +23,7 @@
         "test:coverage": "yarn test --coverage",
         "test:watch": "yarn test --watch",
         "test:ut": "yarn test:watch $1",
+        "test:e2e": "jest --config ./test/jest-e2e.config.js --coverage=false --detectOpenHandles --forceExit --passWithNoTests",
         "lint": "eslint  \"{lib,test}/**/*.ts\" --fix",
         "lint:report": "eslint  \"{lib,test}/**/*.ts\" -f json -o eslint-report.json",
         "prebuild": "ctix build",
