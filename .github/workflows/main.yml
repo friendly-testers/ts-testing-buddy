@@ -7,9 +7,6 @@ on:
             - 'test/**'
 name: Main
 
-env:
-    DOCKER_IMAGE_TAG: ${{ github.event.repository.name }}/${{ github.ref_name }}:latest
-
 jobs:
     install_deps:
         name: 'Install dependencies'
