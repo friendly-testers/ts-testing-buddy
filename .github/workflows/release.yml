@@ -25,6 +25,7 @@ jobs:
               uses: ./.github/actions/cache-dependencies
 
             - name: Build and upload the artifact
+              id: build-artifact
               uses: ./.github/actions/build-artifact-upload
 
     publish:
@@ -46,17 +47,16 @@ jobs:
                   node-version-file: '.nvmrc'
 
             - name: Restore cached production node_modules
-              id: build-artifact
               uses: ./.github/actions/cache-prod-dependencies
 
             - name: Download artifact
               uses: ./.github/actions/build-artifact-download
               with:
-                  artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
+                  artifact-name: ${{ job.create_artifact.steps.build-artifact.outputs.artifact-name }}
 
             - name: Move into the artifact folder
               shell: bash
-              run: cd ./${{ steps.build-artifact.outputs.artifact-name }}
+              run: cd ./${{ job.create_artifact.steps.build-artifact.outputs.artifact-name }}
 
             - name: Publish step
               shell: bash
