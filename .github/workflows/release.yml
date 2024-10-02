@@ -1,0 +1,26 @@
+on:
+    push:
+        # branches:
+        #     - 'release/**'
+name: Release
+
+jobs:
+    create_artifact:
+        name: 'Create build'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached node_modules
+              uses: ./.github/actions/cache-prod-dependencies
+
+            - name: Build and store the artifact
+              uses: ./.github/actions/build-artifact
