@@ -26,18 +26,19 @@ jobs:
 
             - name: Build and upload the artifact
               uses: ./.github/actions/build-artifact-upload
-              with:
-                  release-name: 'test-build'
 
-    prepare_publish:
-        name: 'Prepare publish'
+    publish:
+        name: 'Publish'
         needs: [create_artifact]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
               with:
-                  fetch-depth: 0
+                  sparse-checkout: |
+                      .github
+                      package.json
+                      yarn.lock
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
@@ -58,4 +59,4 @@ jobs:
 
             - name: Publish step
               shell: bash
-              run: echo "Publish artifact"
+              run: ls -R && echo "Publish artifact"
