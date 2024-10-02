@@ -46,6 +46,7 @@ jobs:
                   node-version-file: '.nvmrc'
 
             - name: Restore cached production node_modules
+              id: build-artifact
               uses: ./.github/actions/cache-prod-dependencies
 
             - name: Download artifact
