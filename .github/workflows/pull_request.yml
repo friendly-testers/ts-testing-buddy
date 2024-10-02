@@ -1,0 +1,73 @@
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+        paths:
+            - '.github/**'
+            - 'lib/**'
+            - 'test/**'
+name: Pull request
+
+jobs:
+    install_deps:
+        name: 'Install dependencies'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached node_modules
+              uses: ./.github/actions/cache-dependencies
+
+    build:
+        name: 'Build library'
+        runs-on: ubuntu-latest
+        needs: [install_deps]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached node_modules
+              uses: ./.github/actions/cache-dependencies
+
+            - name: Build
+              run: yarn run build
+
+    test:
+        name: 'Testing, linting and Quality check'
+        runs-on: ubuntu-latest
+        needs: [install_deps]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached node_modules
+              uses: ./.github/actions/cache-dependencies
+
+            - name: Run unit tests
+              run: yarn run test:coverage
+
+            - name: Run e2e
+              run: yarn run test:e2e
+
+            - name: SonarCloud Scan
+              uses: sonarsource/sonarcloud-github-action@v2.2.0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

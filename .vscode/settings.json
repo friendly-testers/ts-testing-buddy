@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "friendly-testers",
+        "projectKey": "friendly-testers_ts-testing-buddy"
+    }
+}
