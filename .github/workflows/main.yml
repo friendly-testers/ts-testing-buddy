@@ -35,13 +35,6 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
-              with:
-                  sparse-checkout: |
-                      lib
-                      package.json
-                      tsconfig.build.json
-                      tsconfig.json
-                      yarn.lock
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
@@ -61,14 +54,6 @@ jobs:
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
-              with:
-                  sparse-checkout: |
-                      lib
-                      test
-                      package.json
-                      tsconfig.build.json
-                      tsconfig.json
-                      yarn.lock
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
