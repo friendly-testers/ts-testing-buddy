@@ -4,6 +4,7 @@ description: 'Create the build and store the artifact'
 inputs:
     release-name:
         description: 'Name of the release to use'
+        required: true
 outputs:
     artifact-id:
         description: 'Id of the uploaded artifact'

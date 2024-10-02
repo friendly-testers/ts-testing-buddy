@@ -10,7 +10,3 @@ runs:
         - uses: actions/download-artifact@v4
           with:
               name: ${{ inputs.artifact-name }}
-
-        - name: Display structure of downloaded files
-          shell: bash
-          run: ls -R

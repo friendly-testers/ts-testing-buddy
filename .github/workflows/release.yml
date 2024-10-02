@@ -25,7 +25,7 @@ jobs:
               uses: ./.github/actions/cache-dependencies
 
             - name: Build and upload the artifact
-              uses: ./.github/actions/build-artifact
+              uses: ./.github/actions/build-artifact-upload
               with:
                   release-name: test-build
 
@@ -48,9 +48,13 @@ jobs:
               uses: ./.github/actions/cache-prod-dependencies
 
             - name: Download artifact
-              uses: ./.github/actions/restore-build-artifact
+              uses: ./.github/actions/build-artifact-download
               with:
                   artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
+
+            - name: Move into the artifact folder
+              shell: bash
+              run: cd ./${{ steps.build-artifact.outputs.artifact-name }}
 
             - name: Publish step
               shell: bash
