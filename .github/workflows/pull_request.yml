@@ -5,7 +5,7 @@ on:
             - '.github/**'
             - 'lib/**'
             - 'test/**'
-name: Main
+name: Pull request
 
 jobs:
     install_deps:
