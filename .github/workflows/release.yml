@@ -23,5 +23,32 @@ jobs:
             - name: Restore cached node_modules
               uses: ./.github/actions/cache-prod-dependencies
 
-            - name: Build and store the artifact
+            - name: Build and upload the artifact
               uses: ./.github/actions/build-artifact
+
+    prepare_publish:
+        name: 'Prepare publish'
+        needs: [create_artifact]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached production node_modules
+              uses: ./.github/actions/cache-prod-dependencies
+
+            - name: Download artifact
+              uses: ./github/actions/restore-build-artifact
+              with:
+                  artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
+
+            - name: Publish step
+              shell: bash
+              run: echo "Publish artifact"
