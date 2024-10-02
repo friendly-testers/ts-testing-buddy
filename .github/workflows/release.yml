@@ -48,7 +48,7 @@ jobs:
               uses: ./.github/actions/cache-prod-dependencies
 
             - name: Download artifact
-              uses: ./github/actions/restore-build-artifact
+              uses: ./.github/actions/restore-build-artifact
               with:
                   artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
 
