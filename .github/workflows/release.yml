@@ -9,7 +9,8 @@ jobs:
     create_artifact:
         name: 'Create build'
         runs-on: ubuntu-latest
-
+        outputs:
+            artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -52,11 +53,11 @@ jobs:
             - name: Download artifact
               uses: ./.github/actions/build-artifact-download
               with:
-                  artifact-name: ${{ job.create_artifact.steps.build-artifact.outputs.artifact-name }}
+                  artifact-name: ${{ needs.create_artifact.outputs.artifact-name }}
 
             - name: Move into the artifact folder
               shell: bash
-              run: cd ./${{ job.create_artifact.steps.build-artifact.outputs.artifact-name }}
+              run: cd ./${{ needs.create_artifact.outputs.artifact-name }}
 
             - name: Publish step
               shell: bash
