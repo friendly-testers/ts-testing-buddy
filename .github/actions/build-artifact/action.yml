@@ -6,7 +6,7 @@ outputs:
         value: ${{ steps.build-artifact.outputs.artifact-id }}
     artifact-name:
         description: 'Name of the uploaded artifact'
-        value: dist-artifact-${{ branch.name }}
+        value: dist-artifact-${{ github.ref_name }}
 runs:
     using: composite
     steps:
