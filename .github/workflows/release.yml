@@ -27,7 +27,7 @@ jobs:
             - name: Build and upload the artifact
               uses: ./.github/actions/build-artifact-upload
               with:
-                  release-name: test-build
+                  release-name: 'test-build'
 
     prepare_publish:
         name: 'Prepare publish'
