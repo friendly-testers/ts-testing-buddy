@@ -1,0 +1,18 @@
+name: 'Cache production dependencies'
+description: 'Cache production dependencies to speed up workflow runs'
+runs:
+    using: composite
+    steps:
+        - name: Restore cached node_modules
+          id: cache
+          uses: actions/cache@v4
+          with:
+              path: '**/node_modules'
+              key: ${{ runner.os }}-prod-deps-${{ hashFiles('**/yarn.lock') }}
+              restore-keys: |
+                  ${{ runner.os }}-prod-deps-
+
+        - name: Install production dependencies
+          shell: bash
+          if: steps.cache.outputs.cache-hit != 'true'
+          run: yarn install --production --frozen-lockfile --immutable --prefer-offline

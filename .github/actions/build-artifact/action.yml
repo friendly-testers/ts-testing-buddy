@@ -1,0 +1,28 @@
+name: 'Build artifact'
+description: 'Create the build and store the artifact'
+outputs:
+    artifact-id:
+        description: 'Id of the uploaded artifact'
+        value: ${{ steps.build-artifact.outputs.artifact-id }}
+    artifact-name:
+        description: 'Name of the uploaded artifact'
+        value: dist-artifact-${{ branch.name }}
+runs:
+    using: composite
+    steps:
+        - name: Build
+          shell: bash
+          run: yarn run build
+
+        - name: Archive artifact
+          id: build-artifact
+          uses: actions/upload-artifact@v4
+          with:
+              retention-days: 30
+              overwrite: true
+              include-hidden-files: true
+              name: dist-artifact-${{ github.ref_name }}
+              path: |
+                  dist
+                  package.json
+                  README.md

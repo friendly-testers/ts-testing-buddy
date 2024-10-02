@@ -1,11 +1,11 @@
+name: Pull request
+
 on:
     pull_request:
         types: [opened, synchronize, reopened]
         paths:
-            - '.github/**'
             - 'lib/**'
             - 'test/**'
-name: Pull request
 
 jobs:
     install_deps:
