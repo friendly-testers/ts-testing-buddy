@@ -4,7 +4,7 @@ runs:
     using: composite
     steps:
         - name: Restore cached node_modules
-          id: cache
+          id: cache-production
           uses: actions/cache@v4
           with:
               path: '**/node_modules'
@@ -14,5 +14,5 @@ runs:
 
         - name: Install production dependencies
           shell: bash
-          if: steps.cache.outputs.cache-hit != 'true'
+          if: steps.cache-production.outputs.cache-hit != 'true'
           run: yarn install --production --frozen-lockfile --immutable --prefer-offline
