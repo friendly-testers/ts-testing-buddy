@@ -20,8 +20,8 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
 
-            - name: Restore cached node_modules
-              uses: ./.github/actions/cache-prod-dependencies
+            - name: Restore cached dev node_modules
+              uses: ./.github/actions/cache-dependencies
 
             - name: Build and upload the artifact
               uses: ./.github/actions/build-artifact
