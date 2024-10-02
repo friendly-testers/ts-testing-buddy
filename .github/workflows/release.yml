@@ -1,6 +1,7 @@
-on:
-    workflow_call:
 name: Release
+
+on:
+    workflow_dispatch:
 
 jobs:
     create_artifact:
