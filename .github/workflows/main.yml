@@ -24,21 +24,9 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
-                  cache: 'yarn'
-                  cache-dependency-path: 'yarn.lock'
 
             - name: Restore cached node_modules
-              id: yarn-cache
-              uses: actions/cache@v4
-              with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
-
-            - name: Install dependencies
-              if: steps.yarn-cache.outputs.cache-hit != 'true'
-              run: yarn install --frozen-lockfile --immutable --prefer-offline
+              uses: ./.github/actions/cache-dependencies
 
     build:
         name: 'Build library'
@@ -59,21 +47,9 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
-                  cache: 'yarn'
-                  cache-dependency-path: 'yarn.lock'
 
             - name: Restore cached node_modules
-              id: yarn-cache
-              uses: actions/cache@v4
-              with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
-
-            - name: Install dependencies
-              if: steps.yarn-cache.outputs.cache-hit != 'true'
-              run: yarn install --frozen-lockfile --immutable --prefer-offline
+              uses: ./.github/actions/cache-dependencies
 
             - name: Build
               run: yarn run build
@@ -98,21 +74,9 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
-                  cache: 'yarn'
-                  cache-dependency-path: 'yarn.lock'
 
             - name: Restore cached node_modules
-              id: yarn-cache
-              uses: actions/cache@v4
-              with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-yarn-
-
-            - name: Install dependencies
-              if: steps.yarn-cache.outputs.cache-hit != 'true'
-              run: yarn install --frozen-lockfile --immutable --prefer-offline
+              uses: ./.github/actions/cache-dependencies
 
             - name: Run unit tests
               run: yarn run test:coverage
