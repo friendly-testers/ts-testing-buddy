@@ -59,4 +59,4 @@ jobs:
 
             - name: Publish step
               shell: bash
-              run: ls -R && echo "Publish artifact"
+              run: ls -latr && echo "Publish artifact"
