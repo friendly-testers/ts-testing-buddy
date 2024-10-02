@@ -11,7 +11,7 @@ outputs:
         value: ${{ steps.build-artifact.outputs.artifact-id }}
     artifact-name:
         description: 'Name of the uploaded artifact'
-        value: dist-artifact-${{ inputs.artifact-name }}
+        value: dist-artifact-${{ inputs.release-name }}
 runs:
     using: composite
     steps:
@@ -26,7 +26,7 @@ runs:
               retention-days: 30
               overwrite: true
               include-hidden-files: true
-              name: dist-artifact-${{ inputs.artifact-name }}
+              name: dist-artifact-${{ inputs.release-name }}
               path: |
                   dist
                   package.json
