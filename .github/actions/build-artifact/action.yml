@@ -1,12 +1,16 @@
 name: 'Build artifact'
 description: 'Create the build and store the artifact'
+
+inputs:
+    release-name:
+        description: 'Name of the release to use'
 outputs:
     artifact-id:
         description: 'Id of the uploaded artifact'
         value: ${{ steps.build-artifact.outputs.artifact-id }}
     artifact-name:
         description: 'Name of the uploaded artifact'
-        value: dist-artifact-${{ github.ref_name }}
+        value: dist-artifact-${{ inputs.artifact-name }}
 runs:
     using: composite
     steps:
@@ -21,7 +25,7 @@ runs:
               retention-days: 30
               overwrite: true
               include-hidden-files: true
-              name: dist-artifact-${{ github.ref_name }}
+              name: dist-artifact-${{ inputs.artifact-name }}
               path: |
                   dist
                   package.json

@@ -9,6 +9,7 @@ jobs:
     create_artifact:
         name: 'Create build'
         runs-on: ubuntu-latest
+
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -25,6 +26,8 @@ jobs:
 
             - name: Build and upload the artifact
               uses: ./.github/actions/build-artifact
+              with:
+                  release-name: test-build
 
     prepare_publish:
         name: 'Prepare publish'
