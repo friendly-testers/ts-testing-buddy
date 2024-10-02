@@ -57,8 +57,8 @@ jobs:
 
             - name: Move into the artifact folder
               shell: bash
-              run: cd ./${{ needs.create_artifact.outputs.artifact-name }}
+              run: ls -latr
 
             - name: Publish step
               shell: bash
-              run: ls -latr && echo "Publish artifact"
+              run: echo "Publish artifact"
