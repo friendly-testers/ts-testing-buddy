@@ -1,0 +1,12 @@
+name: 'Restore build artifact'
+description: 'Download artifact'
+inputs:
+    artifact-name:
+        description: 'Name of the artifact'
+        required: true
+runs:
+    using: composite
+    steps:
+        - uses: actions/download-artifact@v4
+          with:
+              name: ${{ inputs.artifact-name }}

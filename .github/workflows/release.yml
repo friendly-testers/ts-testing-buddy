@@ -1,11 +1,14 @@
 name: Release
 
-on: workflow_dispatch
+on:
+    workflow_dispatch:
 
 jobs:
     create_artifact:
         name: 'Create build'
         runs-on: ubuntu-latest
+        outputs:
+            artifact-name: ${{ steps.build-artifact.outputs.artifact-name }}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -17,8 +20,45 @@ jobs:
               with:
                   node-version-file: '.nvmrc'
 
-            - name: Restore cached node_modules
+            - name: Restore cached dev node_modules
+              uses: ./.github/actions/cache-dependencies
+
+            - name: Build and upload the artifact
+              id: build-artifact
+              uses: ./.github/actions/build-artifact-upload
+
+    publish:
+        name: 'Publish'
+        needs: [create_artifact]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  sparse-checkout: |
+                      .github
+                      package.json
+                      yarn.lock
+                      .nvmrc
+                  sparse-checkout-cone-mode: false
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+
+            - name: Restore cached production node_modules
               uses: ./.github/actions/cache-prod-dependencies
 
-            - name: Build and store the artifact
-              uses: ./.github/actions/build-artifact
+            - name: Download the artifact
+              uses: ./.github/actions/build-artifact-download
+              with:
+                  artifact-name: ${{ needs.create_artifact.outputs.artifact-name }}
+
+            - name: Debug final folder
+              shell: bash
+              run: ls -latr
+
+            - name: Publish step
+              shell: bash
+              run: echo "Publish artifact"
