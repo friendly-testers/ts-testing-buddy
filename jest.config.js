@@ -19,6 +19,7 @@ module.exports = {
         '/coverage',
         '.eslintrc.js',
         'jest.config.js',
+        '/lib/**/index.ts$',
         '.*.provider.ts$',
         '.*.module.ts$',
         '.*.model.ts$',
