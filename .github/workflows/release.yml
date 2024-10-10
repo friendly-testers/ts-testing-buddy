@@ -52,6 +52,11 @@ jobs:
             - name: Restore cached production node_modules
               uses: ./.github/actions/cache-prod-dependencies
 
+            - name: Download the artifact
+              uses: ./.github/actions/build-artifact-download
+              with:
+                  artifact-name: ${{ needs.create_artifact.outputs.artifact-name }}
+
             - name: Debug final folder
               shell: bash
               run: ls -latr
