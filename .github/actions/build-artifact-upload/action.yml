@@ -24,8 +24,6 @@ runs:
               include-hidden-files: true
               name: dist-artifact-production
               path: |
-                  .github
-                  .nvmrc
                   dist
                   package.json
                   README.md
