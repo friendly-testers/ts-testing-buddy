@@ -26,6 +26,7 @@ module.exports = {
         '.*.mock.ts$',
         '.*.dto.ts$',
         '.*\\.(spec|test)\\.(t|j)s$',
+        '__mocks__',
     ],
     moduleFileExtensions: ['js', 'json', 'ts'],
     clearMocks: true,
