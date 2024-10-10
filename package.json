@@ -70,6 +70,9 @@
         "reflect-metadata": "^0.2.2",
         "uuid": "^10.0.0"
     },
+    "peerDependencies": {
+        "jest": "^29.7.0"
+    },
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
