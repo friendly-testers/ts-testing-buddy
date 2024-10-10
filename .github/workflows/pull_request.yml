@@ -60,6 +60,9 @@ jobs:
             - name: Restore cached node_modules
               uses: ./.github/actions/cache-dependencies
 
+            - name: Generate lint report
+              uses: ./.github/actions/eslint-report
+
             - name: Run unit tests
               run: yarn run test:coverage
 

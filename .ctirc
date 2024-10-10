@@ -19,7 +19,9 @@
             "include": [
                 "**/*.ts"
             ],
-            "exclude": [],
+            "exclude": [
+                "**/__mocks__/*"
+            ],
             "skipEmptyDir": true,
             "startFrom": "./lib",
             "output": "./dist",
