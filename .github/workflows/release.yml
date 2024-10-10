@@ -34,28 +34,20 @@ jobs:
         needs: [create_artifact]
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+            - name: Download artifact
+              uses: ./.github/actions/build-artifact-download
               with:
-                  sparse-checkout: |
-                      .github
-                      package.json
-                      yarn.lock
+                  artifact-name: ${{ needs.create_artifact.outputs.artifact-name }}
+
+            - name: Restore cached production node_modules
+              uses: ./.github/actions/cache-prod-dependencies
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: '.nvmrc'
 
-            - name: Restore cached production node_modules
-              uses: ./.github/actions/cache-prod-dependencies
-
-            - name: Download artifact
-              uses: ./.github/actions/build-artifact-download
-              with:
-                  artifact-name: ${{ needs.create_artifact.outputs.artifact-name }}
-
-            - name: Move into the artifact folder
+            - name: Debug artifact folder
               shell: bash
               run: ls -latr
 
